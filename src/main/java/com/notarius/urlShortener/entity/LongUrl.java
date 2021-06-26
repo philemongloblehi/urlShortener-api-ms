@@ -12,6 +12,10 @@ public class LongUrl {
 
     private String url;
 
+    @ManyToOne
+    @JoinColumn(name="short_url_id", nullable=false)
+    private ShortUrl shortUrl;
+
     public LongUrl() {
     }
 
@@ -29,5 +33,13 @@ public class LongUrl {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public ShortUrl getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(ShortUrl shortUrl) {
+        this.shortUrl = shortUrl;
     }
 }

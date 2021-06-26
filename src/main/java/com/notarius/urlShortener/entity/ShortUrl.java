@@ -11,10 +11,6 @@ public class ShortUrl {
     private Long id;
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name="long_url_id", nullable=false)
-    private LongUrl longUrl;
-
     public ShortUrl() {
     }
 
@@ -32,13 +28,5 @@ public class ShortUrl {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public LongUrl getLongUrl() {
-        return longUrl;
-    }
-
-    public void setLongUrl(LongUrl longUrl) {
-        this.longUrl = longUrl;
     }
 }

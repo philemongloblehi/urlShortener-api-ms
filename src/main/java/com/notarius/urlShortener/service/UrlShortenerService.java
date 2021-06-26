@@ -24,9 +24,9 @@ public class UrlShortenerService {
     }
 
     public String generateUrlShortener(LongUrl longUrl) {
-        Optional<LongUrl> longUrlExist = this.longUrlRepository.findLongUrlByUrl(longUrl.getUrl());
-        if (longUrlExist.isPresent()) {
-            longUrl.setShortUrl(longUrl.getShortUrl());
+        List<LongUrl> longUrlExist = this.longUrlRepository.findLongUrlByUrl(longUrl.getUrl());
+        if (!longUrlExist.isEmpty()) {
+            longUrl.setShortUrl(longUrlExist.get(0).getShortUrl());
             this.longUrlRepository.save(longUrl);
 
             return longUrl.getShortUrl().getUrl();
@@ -43,12 +43,13 @@ public class UrlShortenerService {
     }
 
     public String generateUrlCompletely(String urlShortener) {
-        List<ShortUrl> shortUrls = this.shortUrlRepository.findShortUrlByUrl(urlShortener);
-        if (shortUrls.isEmpty()) {
+        Optional<ShortUrl> shortUrl = this.shortUrlRepository.findShortUrlByUrl(urlShortener);
+        if (!shortUrl.isPresent()) {
             throw new ResourceNotFoundException(String.format("Url shortener with url %s not found!", urlShortener));
         }
 
-        return shortUrls.get(0).getUrl();
+        List<LongUrl> longUrls = this.longUrlRepository.findLongUrlByShortUrl(shortUrl.get());
+        return longUrls.get(0).getUrl();
     }
 
     private String generateShortUrl() {

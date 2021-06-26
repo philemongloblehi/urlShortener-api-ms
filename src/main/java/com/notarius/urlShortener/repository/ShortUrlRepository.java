@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {
-    public List<ShortUrl> findShortUrlByUrl(String url);
+    public Optional<ShortUrl> findShortUrlByUrl(String url);
 }
